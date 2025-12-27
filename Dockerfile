@@ -36,4 +36,4 @@ RUN rm -rf subconverter/subconverter-darwin-amd \
 RUN pip install -i ${PIP_INDEX_URL} --no-cache-dir -r requirements.txt
 
 # start and run
-CMD ["python", "-u", "subscribe/process.py", "-s", " https://raw.githubusercontent.com/yuanzhou029/APK/refs/heads/main/config.json", "--overwrite"]
+CMD ["python", "-u", "subscribe/collect.py", "--all", "--overwrite", "--skip"]
