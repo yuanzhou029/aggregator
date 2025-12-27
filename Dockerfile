@@ -4,13 +4,16 @@ FROM python:3.12.3-slim
 
 LABEL maintainer="wzdnzd"
 
-# github personal access token
+# 配置文件路径
+ENV SUBSCRIBE_CONF=""
+
+# GitHub 个人访问 token
 ENV GIST_PAT=""
 
-# github gist info, format: username/gist_id
+# GitHub gist 信息，格式：用户名/gist_id
 ENV GIST_LINK=""
 
-# customize airport listing url address
+# 自定义机场列表网址
 ENV CUSTOMIZE_LINK=""
 
 # pip default index url
@@ -33,4 +36,4 @@ RUN rm -rf subconverter/subconverter-darwin-amd \
 RUN pip install -i ${PIP_INDEX_URL} --no-cache-dir -r requirements.txt
 
 # start and run
-CMD ["python", "-u", "subscribe/collect.py", "--all", "--overwrite", "--skip"]
+CMD ["python", "-u", "subscribe/process.py -s config.json", "--all", "--overwrite", "--skip"]
