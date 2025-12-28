@@ -5,7 +5,7 @@ FROM python:3.12.3-slim
 LABEL maintainer="wzdnzd"
 
 # 配置文件路径
-ENV SUBSCRIBE_CONF=""
+ENV PUSH_TOKEN=""
 
 # GitHub 个人访问 token
 ENV GIST_PAT=""
@@ -36,4 +36,4 @@ RUN rm -rf subconverter/subconverter-darwin-amd \
 RUN pip install -i ${PIP_INDEX_URL} --no-cache-dir -r requirements.txt
 
 # start and run
-CMD ["python", "-u", "subscribe/collect.py", "--all", "--overwrite", "--skip"]
+CMD ["python", "-u", "subscribe/process.py", "--overwrite"]
