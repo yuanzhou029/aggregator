@@ -1,26 +1,24 @@
-name: Delete
+name: Delete All History
 
 on:
-  schedule:
-    # 每周日 UTC 00:00 (北京时间 08:00) 运行
-    - cron: "0 0 * * SUN"
-  # 允许手动触发，方便测试
-  workflow_dispatch:
+  workflow_dispatch: # 建议只保留手动触发，点击按钮即可清洗
 
 jobs:
-  del_runs:
+  purge_history:
     runs-on: ubuntu-latest
     permissions:
       actions: write
       contents: read
     steps:
-      - name: Delete workflow runs
-        # 建议使用指定版本 v2，比 @main 更稳定
+      - name: Delete ALL workflow runs
         uses: Mattraks/delete-workflow-runs@v2
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
-          retain_days: 30
-          keep_minimum_runs: 6
-          # 可选：删除被跳过或取消的运行记录
-          delete_run_by_conclusion_pattern: "cancelled, skipped, success"
+          
+          # 关键配置：全部设为 0，表示一个不留
+          retain_days: 0
+          keep_minimum_runs: 0
+          
+          # 关键配置：指定删除所有状态（默认只删 success/skipped，必须加上 failure）
+          delete_run_by_conclusion_pattern: "cancelled, skipped, success, failure"
