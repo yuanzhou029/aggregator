@@ -1,15 +1,26 @@
-name: Delete
+name: Delete Old Workflow Runs
+
 on:
   schedule:
+    # 每周日 UTC 00:00 (北京时间 08:00) 运行
     - cron: "0 0 * * SUN"
+  # 允许手动触发，方便测试
+  workflow_dispatch:
 
 jobs:
   del_runs:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
     steps:
-      - name: Delete
-        uses: GitRML/delete-workflow-runs@main
+      - name: Delete workflow runs
+        # 建议使用指定版本 v2，比 @main 更稳定
+        uses: GitRML/delete-workflow-runs@v2
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
           retain_days: 30
+          keep_minimum_runs: 6
+          # 可选：删除被跳过或取消的运行记录
+          delete_run_by_conclusion_pattern: "cancelled, skipped, success"
